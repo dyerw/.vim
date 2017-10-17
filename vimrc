@@ -39,3 +39,26 @@ set autoindent
 
 " Let me enter Normal mode w/o hitting enter
 :inoremap jk <ESC>
+
+""" Custom Functions
+
+function! ToggleSpec()
+  let curr_file = @%
+  if (curr_file =~ "\.rb")
+    if (curr_file =~ "_spec")
+      let sub = ".rb" 
+      let pat = "_spec\.rb" 
+    else
+      let sub = "_spec.rb"
+      let pat = "\.rb"
+    endif
+
+    let toggle_file = split(substitute(curr_file, pat, sub, ""), "\/")[-1]
+    let file = split(globpath(".", "**/*" . toggle_file), "\n")[0]
+    execute "edit " . file
+  else
+    echo "Cannot toggle to spec in non-Ruby file"
+  endif
+endfunction
+:nnoremap <leader>ts :call ToggleSpec()<CR>
+
