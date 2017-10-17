@@ -34,5 +34,8 @@ set autoindent
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source ~/.vimrc<CR>
 
+" JSON Formatting
+:nnoremap <leader>fj :%!python -m json.tool<CR>
+
 " Let me enter Normal mode w/o hitting enter
 :inoremap jk <ESC>
