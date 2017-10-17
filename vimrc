@@ -7,6 +7,8 @@ let g:lightline = {
       \ 'colorscheme': 'Dracula',
       \ }
 
+nmap <silent> <Leader>f <Plug>(CommandT)
+
 " Basic Config
 syntax on
 color dracula
@@ -16,7 +18,6 @@ set hidden
 set history=100
 set hlsearch
 set showmatch
-map <leader>s :source ~/.vimrc<CR>
 set guioptions=
 
 " Set up indentation properly
@@ -28,3 +29,10 @@ set expandtab
 set smartindent
 set autoindent
 
+""" Custom Mappings
+" Let me edit and source my vimrc quickly
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source ~/.vimrc<CR>
+
+" Let me enter Normal mode w/o hitting enter
+:inoremap jk <ESC>
