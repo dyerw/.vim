@@ -1,8 +1,28 @@
 " Set up Pathogen plugin loading
 execute pathogen#infect()
 
-" Pluign config
-autocmd vimenter * NERDTree
+let g:startify_custom_header = [
+      \'                                 ',
+      \'      ________ ++     ________   ',   
+      \'     /VVVVVVVV\++++  /VVVVVVVV\  ',
+      \'     \VVVVVVVV/++++++\VVVVVVVV/  ',
+      \'      |VVVVVV|++++++++/VVVVV/''  ',
+      \'      |VVVVVV|++++++/VVVVV/''    ',
+      \'     +|VVVVVV|++++/VVVVV/''+     ',
+      \'   +++|VVVVVV|++/VVVVV/''+++++   ',
+      \' +++++|VVVVVV|/VVVVV/''+++++++++ ',
+      \'   +++|VVVVVVVVVVV/''+++++++++   ',
+      \'     +|VVVVVVVVV/''+++++++++     ',
+      \'      |VVVVVVV/''+++++++++       ',
+      \'      |VVVVV/''+++++++++         ',
+      \'      |VVV/''+++++++++           ',
+      \'      ''V/''   ++++++            ',
+      \'               ++                ',
+      \'                                 ',
+      \] 
+
+
+" Plugin config
 let g:lightline = {
       \ 'colorscheme': 'Dracula',
       \ }
