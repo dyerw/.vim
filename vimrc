@@ -1,9 +1,12 @@
+set encoding=utf-8
+scriptencoding utf-8
 " Set up Pathogen plugin loading
 execute pathogen#infect()
+Helptags
 
 let g:startify_custom_header = [
       \'                                 ',
-      \'      ________ ++     ________   ',   
+      \'      ________ ++     ________   ',
       \'     /VVVVVVVV\++++  /VVVVVVVV\  ',
       \'     \VVVVVVVV/++++++\VVVVVVVV/  ',
       \'      |VVVVVV|++++++++/VVVVV/''  ',
@@ -23,11 +26,22 @@ let g:startify_custom_header = [
 
 
 " Plugin config
+set rtp+=/usr/local/opt/fzf
 let g:lightline = {
       \ 'colorscheme': 'Dracula',
       \ }
+set laststatus=2
 
-nmap <silent> <Leader>f <Plug>(CommandT)
+execute deoplete#enable()
+let g:monster#completion#rcodetools#backend = "async_rct_complete"
+let g:deoplete#sources#omni#input_patterns = {
+\   "ruby" : '[^. *\t]\.\w*\|\h\w*::'
+\}
+let g:deoplete#omni#functions.ruby = 'rubycomplete#Complete'
+
+" FZF bindings
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>r :Buffers<CR>
 
 " Basic Config
 syntax on
@@ -37,7 +51,6 @@ set number
 set hidden
 set history=100
 set guioptions=
-set guifont=Operator\ Mono\ Book:h14
 set relativenumber
 
 " Set up indentation properly
@@ -48,6 +61,40 @@ set shiftwidth=2
 set expandtab
 set smartindent
 set autoindent
+
+" Whitespace!
+nmap <leader>l :set list!<CR>
+set listchars=tab:▸-,eol:¬,space:∙,trail:◥
+
+" Terminal keys
+tnoremap jk <C-\><C-n>
+nnoremap <leader>o :below 10sp term://fish<cr>i
+
+
+" Split navigation
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+tnoremap <C-J> <C-W><C-J>
+tnoremap <C-K> <C-W><C-K>
+tnoremap <C-L> <C-W><C-L>
+tnoremap <C-H> <C-W><C-H>
+
+" netrw keys
+nnoremap <leader>ex :Explore<CR>
+nnoremap <leader>exv :Vexplore<CR>
+nnoremap <leader>exh :Sexplore<CR>
+
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
 
 " Searching / Moving defaults
 nnoremap / /\v
@@ -68,16 +115,43 @@ nnoremap <leader>y "+y
 vnoremap <leader>p "+p
 vnoremap <leader>y "+y
 
+" Supertab
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+
+if has("gui_running")
+  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+else " no gui
+  if has("unix")
+    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+  endif
+endif
+
+"" Language autocomplete stuff
+let g:haskellmode_completion_ghc = 1
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+autocmd FileType ruby let g:rubycomplete_rails = 1
+autocmd FileType ruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby let g:rubycomplete_classes_in_global = 1   
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+
 """ Custom Mappings
 " Let me edit and source my vimrc quickly
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-:nnoremap <leader>sv :source ~/.vimrc<CR>
+:nnoremap <leader>ev :vsplit ~/.vim/vimrc<cr>
+:nnoremap <leader>sv :source ~/.vim/vimrc<CR>
 
 " JSON Formatting
-:nnoremap <leader>fj :%!python -m json.tool<CR>
+:nnoremap <leader>jf :%!python -m json.tool<CR>
 
 " Let me enter Normal mode w/o hitting enter
 :inoremap jk <ESC>
+
+" Yo, fuck grep
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+" Search project for word under cursor
+nnoremap <leader>ag :grep! "\b<C-R><C-W>\b"<CR>:cw<CR><CR>
 
 """ Custom Functions
 
