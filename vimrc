@@ -1,8 +1,14 @@
 set encoding=utf-8
 scriptencoding utf-8
-" Set up Pathogen plugin loading
-execute pathogen#infect()
-Helptags
+
+" Install Plug if it isn't
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+source plugins.vim
 
 let g:startify_custom_header = [
       \'                                 ',
@@ -31,13 +37,6 @@ let g:lightline = {
       \ 'colorscheme': 'Dracula',
       \ }
 set laststatus=2
-
-execute deoplete#enable()
-let g:monster#completion#rcodetools#backend = "async_rct_complete"
-let g:deoplete#sources#omni#input_patterns = {
-\   "ruby" : '[^. *\t]\.\w*\|\h\w*::'
-\}
-let g:deoplete#omni#functions.ruby = 'rubycomplete#Complete'
 
 " FZF bindings
 nnoremap <leader>f :Files<CR>
@@ -85,16 +84,6 @@ tnoremap <C-H> <C-W><C-H>
 nnoremap <leader>ex :Explore<CR>
 nnoremap <leader>exv :Vexplore<CR>
 nnoremap <leader>exh :Sexplore<CR>
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
 
 " Searching / Moving defaults
 nnoremap / /\v
